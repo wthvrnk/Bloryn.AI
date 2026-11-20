@@ -1,0 +1,143 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.5,
+      "position": [
+        -816,
+        96
+      ],
+      "id": "d5a2a040-fbdd-498c-a0e8-84ffcbf6cb61",
+      "name": "When chat message received",
+      "webhookId": "7d8588f3-93c3-4897-9274-afb799176f66"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -496,
+        112
+      ],
+      "id": "0bea9aed-9362-427b-ac5f-b3c8211179c9",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.2,
+      "position": [
+        -576,
+        336
+      ],
+      "id": "01b6b1dc-8e03-4eb9-b95b-e1e092b149e7",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "rU27ds1H79cMg6ij",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        -448,
+        336
+      ],
+      "id": "73941e82-f261-4eb6-8b86-f8ef40c39f6e",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Gunakan tool ini untuk mencari informasi atau fakta umum di internet.",
+        "url": "=https://api.duckduckgo.com/?q={{ $fromAI(\"query\", \"kata kunci pencarian\") }}&format=json",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.5,
+      "position": [
+        -336,
+        320
+      ],
+      "id": "822794b0-df3b-457e-83be-3f54a7a6ae67",
+      "name": "HTTP Request"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        []
+      ]
+    },
+    "HTTP Request": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": true
+  },
+  "versionId": "1b179d85-6623-49ff-9ac9-fcfd3d62d200",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "648a4966850c35217d458d68ba5c35fe0d38c1e3079d5c78b6b7abc121bf794f"
+  },
+  "nodeGroups": [],
+  "id": "NqxFszJQjwOnZ5yp",
+  "tags": []
+}
